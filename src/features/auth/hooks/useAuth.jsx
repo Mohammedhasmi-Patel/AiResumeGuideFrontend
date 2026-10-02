@@ -16,7 +16,6 @@ export const useAuth = () => {
         setError(null);
         try {
             const data = await login({ email, password });
-            console.log("Login success at hook", data);
             setUser(data.user);
         }
         catch (error) {
