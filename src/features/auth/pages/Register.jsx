@@ -1,11 +1,35 @@
-import { Link } from "react-router";
+import { useState } from "react";
+import { Link, Navigate } from "react-router";
+import "../auth.form.scss";
+import { useAuth } from "../hooks/useAuth";
 
 const Register = () => {
+    const [formData, setFormData] = useState({
+        username: "",
+        email: "",
+        password: ""
+    });
 
+    const { handleRegister, isLoading, isCheckingAuth, error, user } = useAuth();
+
+    if (isCheckingAuth) {
+        return null;
+    }
+
+    if (user) {
+        return <Navigate to="/" replace />;
+    }
+
+    const handleChange = (e) => {
+        setFormData((prev) => ({
+            ...prev,
+            [e.target.name]: e.target.value
+        }));
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("submit");
+        handleRegister(formData);
     };
 
     return (
@@ -14,24 +38,62 @@ const Register = () => {
                 <div className="form-header">
                     <h1>Register</h1>
                 </div>
+                {error && (
+                    <div style={{
+                        backgroundColor: "#fee2e2",
+                        color: "#dc2626",
+                        padding: "0.75rem 1rem",
+                        borderRadius: "8px",
+                        fontSize: "0.875rem",
+                        textAlign: "center"
+                    }}>
+                        {error}
+                    </div>
+                )}
                 <form onSubmit={handleSubmit}>
                     <div className="input-group">
                         <label htmlFor="username">Username</label>
-                        <input type="text" name="username" id="username" placeholder='Enter your username' />
+                        <input
+                            type="text"
+                            name="username"
+                            id="username"
+                            value={formData.username}
+                            onChange={handleChange}
+                            placeholder='Enter your username'
+                            required
+                        />
                     </div>
                     <div className="input-group">
                         <label htmlFor="email">Email</label>
-                        <input type="email" name="email" id="email" placeholder='Enter your email' />
+                        <input
+                            type="email"
+                            name="email"
+                            id="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            placeholder='Enter your email'
+                            required
+                        />
                     </div>
                     <div className="input-group">
                         <label htmlFor="password">Password</label>
-                        <input type="password" name="password" id="password" placeholder='Enter your password' />
+                        <input
+                            type="password"
+                            name="password"
+                            id="password"
+                            value={formData.password}
+                            onChange={handleChange}
+                            placeholder='Enter your password'
+                            required
+                        />
                     </div>
-                    <button className="button primary-button" type="submit">Login</button>
+                    <button className="button primary-button" type="submit" disabled={isLoading}>
+                        {isLoading ? "Registering..." : "Register"}
+                    </button>
                     <p>Already have an account? <Link to="/login">Login</Link></p>
                 </form>
             </div>
-        </main >
+        </main>
     );
 };
 
