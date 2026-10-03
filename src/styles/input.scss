@@ -32,4 +32,53 @@
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
         }
     }
+
+    .password-wrapper {
+        position: relative;
+        width: 100%;
+        display: flex;
+        align-items: center;
+
+        input {
+            width: 100%;
+            padding-right: 2.75rem;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 0.6rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            padding: 0.35rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #64748b;
+            border-radius: 6px;
+            transition: color 0.15s ease, background-color 0.15s ease;
+            box-shadow: none;
+            outline: none;
+            margin: 0;
+
+            &:hover {
+                color: #0f172a;
+                background-color: #f1f5f9;
+            }
+
+            &:focus-visible {
+                outline: 2px solid #2563eb;
+                outline-offset: 1px;
+            }
+
+            svg {
+                width: 19px;
+                height: 19px;
+                display: block;
+                pointer-events: none;
+            }
+        }
+    }
 }

@@ -1,9 +1,13 @@
 import { useState } from "react";
-import { Link, Navigate } from "react-router";
+import { Link, Navigate, useLocation } from "react-router";
 import "../auth.form.scss";
 import { useAuth } from "../hooks/useAuth";
+import PasswordInput from "../components/PasswordInput";
 
 const Register = () => {
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
+
     const [formData, setFormData] = useState({
         username: "",
         email: "",
@@ -17,7 +21,7 @@ const Register = () => {
     }
 
     if (user) {
-        return <Navigate to="/" replace />;
+        return <Navigate to={from} replace />;
     }
 
     const handleChange = (e) => {
@@ -77,8 +81,7 @@ const Register = () => {
                     </div>
                     <div className="input-group">
                         <label htmlFor="password">Password</label>
-                        <input
-                            type="password"
+                        <PasswordInput
                             name="password"
                             id="password"
                             value={formData.password}
